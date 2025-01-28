@@ -6,6 +6,7 @@ export const useAuthStore = create((set) =>({
     authUser : null,
     isSigningUp : false,
     isLoggingIng : false,
+    isUpdatingProfile : false,
     isCheckingAuth : true,
 
     checkAuth : async () =>{
@@ -21,18 +22,20 @@ export const useAuthStore = create((set) =>({
     }
     ,
     signUp: async (data) => {
-        set({ isSigningUp: true });
-        try {
+      set({ isSigningUp: true });
+      try {
+          console.log("Data being sent to the API:", data); // Debugging
           const res = await axiosInstance.post("/auth/signup", data);
           set({ authUser: res.data });
           toast.success("Account created successfully");
-          
-        } catch (error) {
+      } catch (error) {
+          console.error("API error:", error.response?.data); // Debugging
           toast.error(error.response.data.message);
-        } finally {
+      } finally {
           set({ isSigningUp: false });
-        }
-      },
+      }
+  },
+  
 
     logout : async () => {
       try {
@@ -57,6 +60,20 @@ export const useAuthStore = create((set) =>({
         toast.error(error.response.data.message);
       } finally {
         set({ isLoggingIn: false });
+      }
+    },
+  
+    updateProfile: async (data) => {
+      set({ isUpdatingProfile: true });
+      try {
+        const res = await axiosInstance.put("/auth/update-profile", data);
+        set({ authUser: res.data });
+        toast.success("Profile updated successfully");
+      } catch (error) {
+        console.log("error in update profile:", error);
+        toast.error(error.response.data.message);
+      } finally {
+        set({ isUpdatingProfile: false });
       }
     },
   

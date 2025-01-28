@@ -32,7 +32,7 @@ const SignUp = () => {
     const success = validateForm();
 
     if (success === true){
-      await signUp(formData);
+       signUp(formData);
     } 
   };
 
