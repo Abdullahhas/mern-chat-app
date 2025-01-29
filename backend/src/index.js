@@ -30,7 +30,7 @@ app.use(cookieParser()); // Parse cookies
 
 // Define routes
 app.use('/api/auth', authRoutes);
-app.use('/api/message', messageRoutes);
+app.use('/api/messages', messageRoutes);
 
 // Start the server
 app.listen(PORT, () => {
