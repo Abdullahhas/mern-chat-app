@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import {genToken} from "../lib/utils.js";
+import QRCode from "qrcode";
 
 
 
@@ -24,10 +25,16 @@ export const signup = async (req ,res)=>{
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
+        const qrData = JSON.stringify({ email, fullName });
+        const qrCode = await QRCode.toDataURL(qrData, { width: 200, height: 200 });
+
+ 
+
         const newUser = new User({
             email,
             fullName,
-            password : hashedPassword
+            password : hashedPassword,
+            qrCode
         });
 
         if(newUser){
@@ -60,6 +67,8 @@ export const login = async (req ,res)=>{
         if(!isPasswordCorrect){
             return res.status(400).json({message : "Invalid credientials"});
         }
+        const qrData = JSON.stringify({ email: user.email, fullName: user.fullName });
+        const qrCode = await QRCode.toDataURL(qrData, { width: 200, height: 200 });
         
         genToken(user._id , res)
 
@@ -67,7 +76,7 @@ export const login = async (req ,res)=>{
             _id : user._id,
             email : user.email,
             fullName : user.fullName,
-            profilePic : user.profile
+            profilePic : user.profile, qrCode: qrCode
 
         });
     } catch (error) {

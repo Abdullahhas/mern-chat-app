@@ -11,12 +11,14 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="h-[900px] pt-20">
+    
+    <div className="h-[950px] pt-20">
       <div className="max-w-2xl mx-auto p-4 py-8">
         <div className="bg-gray-800 rounded-xl p-6 space-y-8">
           <div className="text-center">
             <h1 className="text-2xl font-semibold ">Profile</h1>
             <p className="mt-2">Your profile information</p>
+            
           </div>
 
           {/* avatar upload section */}
@@ -49,9 +51,23 @@ const ProfilePage = () => {
                 />
               </label>
             </div>
+            
             <p className="text-sm text-zinc-400">
               {isUpdatingProfile ? "Uploading..." : "Click the camera icon to update your photo"}
             </p>
+
+            <div className="profile-container">
+            
+
+            {authUser.qrCode && (
+                <img
+                src={authUser.qrCode}
+                alt="QR Code"
+                style={{ border: "", width: "70px", height: "70px" }}
+            />
+            
+            )}
+        </div>
           </div>
 
           <div className="space-y-6">
@@ -87,6 +103,7 @@ const ProfilePage = () => {
           </div>
         </div>
       </div>
+      
     </div>
   );
 };
