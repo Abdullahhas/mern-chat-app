@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const connectDB = async () => {
-    let mongodbUrl = 'mongodb://localhost:27017/mern';
+    let mongodbUrl = process.env.DBURL;
     try {
         const conn =  await mongoose.connect(mongodbUrl)
         console.log(`MongoDB Connected: ${conn.connection.host}`);
