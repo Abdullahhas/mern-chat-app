@@ -22,15 +22,14 @@ export const signup = async (req, res) => {
         return res.status(400).json({ message: "User already exists" });
       }
   
-      // Hash password
+      
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
   
-      // Generate QR Code
       const qrData = JSON.stringify({ email, fullName });
       const qrCode = await QRCode.toDataURL(qrData, { width: 200, height: 200 });
   
-      // Create new user (Sequelize)
+    
       const newUser = await User.create({
         email,
         fullName,
@@ -38,8 +37,8 @@ export const signup = async (req, res) => {
         qrCode,
       });
   
-      // Generate Token
-      genToken(newUser.id, res); // Sequelize uses `id`, not `_id`
+      
+      genToken(newUser.id, res);
   
       return res.status(201).json({ message: "User created successfully" });
   
@@ -53,24 +52,23 @@ export const signup = async (req, res) => {
     const { email, password } = req.body;
   
     try {
-      // Find user by email (Sequelize)
+     
       const user = await User.findOne({ where: { email } });
   
       if (!user) {
         return res.status(400).json({ message: "Invalid credentials" });
       }
   
-      // Compare hashed password
+      
       const isPasswordCorrect = await bcrypt.compare(password, user.password);
       if (!isPasswordCorrect) {
         return res.status(400).json({ message: "Invalid credentials" });
       }
   
-      // Generate QR Code
+      
       const qrData = JSON.stringify({ email: user.email, fullName: user.fullName });
       const qrCode = await QRCode.toDataURL(qrData, { width: 200, height: 200 });
   
-      // Generate Token
       genToken(user.id, res);
   
       return res.status(200).json({
@@ -124,7 +122,7 @@ export const updateProfile = async (req, res) => {
 
 export const checkAuth = async (req, res) => {
     try {
-      // Find user using Sequelize
+      
       const user = await User.findByPk(req.user.id);
   
       if (!user) {
