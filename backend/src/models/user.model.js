@@ -1,33 +1,33 @@
-import mongoose from "mongoose";
+import { DataTypes } from "sequelize";
+import  sequelize  from "../lib/sequelize.js";
 
-const userSchema = new mongoose.Schema({
-    email :{
-        type : String,
-        required : true,
-        unique : true
+const User = sequelize.define("User", {
+  id: {
+    type: DataTypes.UUID, // Use UUID if you're using MongoDB-like IDs
+    defaultValue: DataTypes.UUIDV4, // Auto-generate UUID
+    primaryKey: true,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  fullName: { 
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  profilePic: {
+    type: DataTypes.STRING,
+    defaultValue: "",
+  },
+  // qrCode: {
+  //   type: DataTypes.TEXT,
+  //   defaultValue: "",
+  // },
+}, { timestamps: true });
 
-    },
-    fullName :{
-        type : String,
-        required : true
-    },
-    password :{
-        type : String,
-        required : true,
-        minLength : 6
-    },
-    profilePic :{
-        type : String,
-        default : ''
-    },
-    qrCode: {
-        type: String, 
-        default: ""
-    }
-
-},{
-    timestamps : true
-})
-
-const User = mongoose.model('User', userSchema);
 export default User;

@@ -6,12 +6,20 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
 import { connectDB } from "./lib/db.js";
+import { connectSQL } from "./lib/sequelize.js";
 import { app, server } from "./lib/socket.js";
+import sequelize from "./lib/sequelize.js";
+import User from "./models/user.model.js";
 
 dotenv.config({ path: "../.env" });
 const PORT = process.env.PORT || 4000;
 
 connectDB();
+connectSQL();
+
+sequelize.sync({ force: false }) // Change to `true` to drop and recreate tables
+  .then(() => console.log(" Database synchronized"))
+  .catch(err => console.error("Error syncing database:", err));
 
 app.use(
   cors({
