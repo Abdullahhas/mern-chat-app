@@ -1,7 +1,7 @@
 import User from "../models/user.model.js";  // Sequelize User Model
 import bcrypt from "bcryptjs";
 import { genToken } from "../lib/utils.js";
-import QRCode from "qrcode";
+
 
 
 export const signup = async (req, res) => {
@@ -26,15 +26,14 @@ export const signup = async (req, res) => {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
   
-      const qrData = JSON.stringify({ email, fullName });
-      const qrCode = await QRCode.toDataURL(qrData, { width: 200, height: 200 });
+    
   
     
       const newUser = await User.create({
         email,
         fullName,
         password: hashedPassword,
-        qrCode,
+       
       });
   
       
@@ -66,8 +65,7 @@ export const signup = async (req, res) => {
       }
   
       
-      const qrData = JSON.stringify({ email: user.email, fullName: user.fullName });
-      const qrCode = await QRCode.toDataURL(qrData, { width: 200, height: 200 });
+      
   
       genToken(user.id, res);
   
@@ -76,7 +74,7 @@ export const signup = async (req, res) => {
         email: user.email,
         fullName: user.fullName,
         profilePic: user.profile,
-        qrCode: qrCode,
+        
       });
   
     } catch (error) {
