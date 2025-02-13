@@ -6,16 +6,16 @@ import HomePage from './components/HomePage'
 import SignUp from './components/SignUp'
 import SettingsPage from './components/SettingsPage'
 import ProfilePage from './components/ProfilePage'
-import { useAuthStore } from './store/useAuthStore.js'
-import { useThemeStore } from './store/useThemeStore.js'
+import { useAuth } from './store/useAuthStore.jsx'
+import { useTheme } from './store/useThemeStore.jsx'
 import {Loader} from "lucide-react"
 import { Toaster } from 'react-hot-toast'
 
 const App = () => {
-  const {authUser , checkAuth , isCheckingAuth , onlineUsers} = useAuthStore()
-  const {theme} = useThemeStore()
+  const {authUser , checkAuth , isCheckingAuth , onlineUsers} = useAuth()
+  const {theme} = useTheme()
 
-  console.log({onlineUsers})
+  
 
   useEffect(()=>{
     checkAuth()

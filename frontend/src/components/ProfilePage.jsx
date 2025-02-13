@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useAuthStore } from "../store/useAuthStore";
+import { useAuth } from "../store/useAuthStore";
 import { Camera, Mail, User } from "lucide-react";
 
 const ProfilePage = () => {
-  const { authUser, isUpdatingProfile, updateProfile } = useAuthStore();
+  const { authUser, isUpdatingProfile, updateProfile } = useAuth();
   const [selectedImg, setSelectedImg] = useState(null);
 
   const handleImageUpload = async (e) => {
@@ -56,18 +56,7 @@ const ProfilePage = () => {
               {isUpdatingProfile ? "Uploading..." : "Click the camera icon to update your photo"}
             </p>
 
-            <div className="profile-container">
-            
-
-            {authUser.qrCode && (
-                <img
-                src={authUser.qrCode}
-                alt="QR Code"
-                style={{ border: "", width: "70px", height: "70px" }}
-            />
-            
-            )}
-        </div>
+           
           </div>
 
           <div className="space-y-6">
