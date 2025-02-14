@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect , useCallback } from "react";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
-import { useAuth } from "./useAuthStore"; // Assuming you've already converted useAuthStore to context
+import { useAuth } from "./useAuthStore";
 
 const ChatContext = createContext();
 
@@ -13,9 +13,9 @@ export const ChatProvider = ({ children }) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [isUsersLoading, setIsUsersLoading] = useState(false);
   const [isMessageLoading, setIsMessageLoading] = useState(false);
-  const { socket } = useAuth(); // Assuming useAuth provides the socket
+  const { socket } = useAuth();
 
-  // Fetch users
+  
   const getUsers =useCallback( async () => {
     setIsUsersLoading(true);
     try {
@@ -28,7 +28,7 @@ export const ChatProvider = ({ children }) => {
     }
   } , []);
 
-  // Fetch messages for a specific user
+ 
   const getMessages = useCallback( async (userId) => {
     if (!userId) {
       toast.error("No user selected for fetching messages.");
@@ -47,7 +47,7 @@ export const ChatProvider = ({ children }) => {
     }
   } , []) ;
 
-  // Send a message
+  
   const sendMessages = async (messageData) => {
     if (!selectedUser) {
       toast.error("No user selected to send the message.");
@@ -65,7 +65,7 @@ export const ChatProvider = ({ children }) => {
     }
   };
 
-  // Subscribe to new messages
+ 
   const subscribeToMessages = useCallback( () => {
     if (!selectedUser || !socket) return;
 
@@ -77,19 +77,19 @@ export const ChatProvider = ({ children }) => {
     });
   } , [selectedUser , socket]);
 
-  // Unsubscribe from new messages
+
   const unSubscribeToMessages =useCallback( () => {
     if (socket) {
       socket.off("newMessage");
     }
   } , [socket]);
 
-  // Update selected user
+ 
   const updateSelectedUser = (user) => {
     setSelectedUser(user);
   };
 
-  // Cleanup socket listeners on unmount
+  
   useEffect(() => {
     return () => {
       unSubscribeToMessages();

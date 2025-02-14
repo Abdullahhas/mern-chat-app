@@ -32,13 +32,13 @@ export const AuthProvider = ({ children }) => {
   const signUp = async (data) => {
     setIsSigningUp(true);
     try {
-      console.log("Data being sent to the API:", data); // Debugging
+      console.log("Data being sent to the API:", data); 
       const res = await axiosInstance.post("/auth/signup", data);
       setAuthUser(res.data);
       toast.success("Account created successfully");
       connectSocket();
     } catch (error) {
-      console.error("API error:", error.response?.data); // Debugging
+      console.error("API error:", error.response?.data);
       toast.error(error.response.data.message);
     } finally {
       setIsSigningUp(false);
