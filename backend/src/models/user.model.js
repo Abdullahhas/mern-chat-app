@@ -24,6 +24,10 @@ const User = sequelize.define("User", {
     type: DataTypes.STRING,
     defaultValue: "",
   },
+  qrCode: {
+    type: DataTypes.STRING,
+    defaultValue: "",
+  },
   
 }, { timestamps: true });
 

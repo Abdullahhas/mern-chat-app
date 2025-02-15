@@ -4,6 +4,7 @@ import { genToken } from "../lib/utils.js";
 
 
 
+
 export const signup = async (req, res) => {
     const { email, fullName, password } = req.body;
   
@@ -96,26 +97,44 @@ export const logout = (req, res) => {
 };
 
 
+
+
 export const updateProfile = async (req, res) => {
-    try {
-        const { profilePic } = req.body;
-        const userId = req.user.id;
+  try {
+    const userId = req.user?.id;
 
-        if (!profilePic) {
-            return res.status(400).json({ message: "Profile picture is required" });
-        }
-
-        const updatedUser = await User.update(
-            { profilePic },
-            { where: { id: userId } }
-        );
-
-        return res.status(200).json(updatedUser);
-    } catch (error) {
-        console.error("Error in update profile:", error);
-        return res.status(500).json({ message: "Internal server error" });
+    // Check if the user ID exists
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized: User ID missing" });
     }
+
+    // Check if a file was uploaded
+    if (!req.file) {
+      return res.status(400).json({ message: "Profile picture is required" });
+    }
+
+    // Construct the profile picture path
+    const profilePic = `/uploads/${req.file.filename}`;
+
+    // Update the user's profile picture
+    const [updatedRows] = await User.update({ profilePic }, { where: { id: userId } });
+
+    if (updatedRows === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({
+      message: "Profile updated successfully",
+      profilePic,
+    });
+
+  } catch (error) {
+    console.error("Error in update profile:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
 };
+
+
 
 
 export const checkAuth = async (req, res) => {

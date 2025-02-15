@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 const messageSchema = new mongoose.Schema(
   {
     senderId: {
-      type: String, // Change from ObjectId to String (UUID from SQL)
+      type: String, 
       required: true,
     },
     receiverId: {
-      type: String, // Change from ObjectId to String (UUID from SQL)
+      type: String, 
       required: true,
     },
     text: {

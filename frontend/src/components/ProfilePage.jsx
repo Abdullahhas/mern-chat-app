@@ -7,8 +7,20 @@ const ProfilePage = () => {
   const [selectedImg, setSelectedImg] = useState(null);
 
   const handleImageUpload = async (e) => {
- 
+    const file = e.target.files[0];
+    if (!file) return;
+  
+    // Update preview
+    setSelectedImg(URL.createObjectURL(file));
+  
+    // Call updateProfile function
+    try {
+      await updateProfile(file);
+    } catch (error) {
+      console.error("Failed to upload profile picture:", error);
+    }
   };
+  
 
   return (
     
@@ -26,7 +38,8 @@ const ProfilePage = () => {
           <div className="flex flex-col items-center gap-4">
             <div className="relative">
               <img
-                src={selectedImg || authUser.profilePic || "/avatar.png"}
+              src={selectedImg || `http://localhost:3000${authUser.profilePic}` || "/avatar.png"}
+
                 alt="Profile"
                 className="size-32 rounded-full object-cover border-4 "
               />

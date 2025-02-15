@@ -32,7 +32,6 @@ export const AuthProvider = ({ children }) => {
   const signUp = async (data) => {
     setIsSigningUp(true);
     try {
-      console.log("Data being sent to the API:", data); 
       const res = await axiosInstance.post("/auth/signup", data);
       setAuthUser(res.data);
       toast.success("Account created successfully");
@@ -70,19 +69,22 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const updateProfile = async (data) => {
-    setIsUpdatingProfile(true);
+  const updateProfile = async (file) => {
+    const formData = new FormData();
+    formData.append('profilePic', file);
+
     try {
-      const res = await axiosInstance.put("/auth/update-profile", data);
-      setAuthUser(res.data);
-      toast.success("Profile updated successfully");
+        const res = await axiosInstance.put("/auth/update-profile", formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        setAuthUser((prev) => ({ ...prev, profilePic: res.data.profilePic }));
+        toast.success("Profile updated successfully");
     } catch (error) {
-      console.log("error in update profile:", error);
-      toast.error(error.response.data.message);
-    } finally {
-      setIsUpdatingProfile(false);
+        console.error("Error updating profile:", error);
+        toast.error(error.response?.data?.message || "Failed to update profile");
     }
-  };
+};
+
 
   const connectSocket = () => {
     if (!authUser || socket?.connected) return;

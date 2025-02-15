@@ -8,10 +8,21 @@ import { connectDB } from "./lib/db.js";
 import { connectSQL } from "./lib/sequelize.js";
 import { app, server } from "./lib/socket.js";
 import sequelize from "./lib/sequelize.js";
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+// Create __dirname manually for ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+
+
 
 
 dotenv.config({ path: "../.env" });
 const PORT = process.env.PORT || 4000;
+
 
 connectDB();
 connectSQL();
