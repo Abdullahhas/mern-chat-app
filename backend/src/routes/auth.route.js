@@ -1,5 +1,5 @@
 import express from "express";
-import { login, logout, signup  , updateProfile , checkAuth} from "../controllers/auth.controller.js";
+import { login, logout, signup  , updateProfile , checkAuth , generateQRCode} from "../controllers/auth.controller.js";
 import { isAuthenticated } from "../middlewares/auth.middleware.js";
 import upload from "../middlewares/multer.js";
 
@@ -10,6 +10,7 @@ router.post("/login", login);
 router.post("/logout", logout);
 router.put("/update-profile" , isAuthenticated, upload.single('profilePic') ,  updateProfile);
 router.get("/check" , isAuthenticated , checkAuth)
+// router.get('/qrcode', isAuthenticated, generateQRCode);
 
 
 export default router;

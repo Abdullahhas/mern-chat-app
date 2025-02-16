@@ -1,6 +1,7 @@
-import User from "../models/user.model.js";  // Sequelize User Model
+import User from "../models/user.model.js";  
 import bcrypt from "bcryptjs";
 import { genToken } from "../lib/utils.js";
+import QRCode from 'qrcode';
 
 
 
@@ -154,3 +155,33 @@ export const checkAuth = async (req, res) => {
     }
   };
   
+
+
+
+
+// export const generateQRCode = async (req, res) => {
+//   try {
+//     const userId = req.user?.id;
+//     if (!userId) return res.status(401).json({ message: "Unauthorized: User ID missing" });
+
+//     const user = await User.findByPk(userId);
+//     if (!user) return res.status(404).json({ message: "User not found" });
+
+//     const userInfo = {
+//       id: user.id,
+//       email: user.email,
+//       fullName: user.fullName,
+//     };
+
+//     // Generate QR code as Base64 string
+//     const qrCodeImage = await QRCode.toDataURL(JSON.stringify(userInfo));
+
+//     // Update user record
+//     await user.update({ qrCode: qrCodeImage });
+
+//     return res.status(200).json({ qrCodeImage });
+//   } catch (error) {
+//     console.error("Error in generateQRCode:", error);
+//     return res.status(500).json({ message: "Failed to generate QR code" });
+//   }
+// };

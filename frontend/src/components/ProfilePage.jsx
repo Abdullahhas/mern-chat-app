@@ -3,8 +3,9 @@ import { useAuth } from "../store/useAuthStore";
 import { Camera, Mail, User } from "lucide-react";
 
 const ProfilePage = () => {
-  const { authUser, isUpdatingProfile, updateProfile } = useAuth();
+  const { authUser, isUpdatingProfile, updateProfile , qrCodeImage } = useAuth();
   const [selectedImg, setSelectedImg] = useState(null);
+
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
@@ -32,7 +33,13 @@ const ProfilePage = () => {
             <p className="mt-2">Your profile information</p>
             
           </div>
-
+         {/* <div className="mt-4">
+    {qrCodeImage ? (
+      <img src={qrCodeImage} alt="User QR Code" className="w-32 h-32" />
+    ) : (
+      <p>Loading QR code...</p>
+    )}
+  </div> */}
           {/* avatar upload section */}
 
           <div className="flex flex-col items-center gap-4">

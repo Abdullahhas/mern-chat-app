@@ -15,6 +15,25 @@ export const AuthProvider = ({ children }) => {
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [socket, setSocket] = useState(null);
+  // const [qrCodeImage, setQrCodeImage] = useState(null); // State to store the QR code image
+
+  
+    // const fetchQRCode = async () => {
+    //   try {
+    //     const response = await axiosInstance.get("/auth/qrcode");
+    //     console.log(response)
+    //     if (response.data.qrCodeImage) {
+    //       setQrCodeImage(response.data.qrCodeImage);
+    //     }
+    //     else{
+    //       console.log('error')
+    //     }
+    //   } catch (error) {
+    //     console.error("Error fetching QR code:", error);
+    //     toast.error("Failed to fetch QR code");
+    //   }
+    // };
+    
 
   const checkAuth = async () => {
     try {
@@ -125,6 +144,8 @@ export const AuthProvider = ({ children }) => {
         updateProfile,
         connectSocket,
         disConnectSocket,
+        qrCodeImage,
+        fetchQRCode
       }}
     >
       {children}
