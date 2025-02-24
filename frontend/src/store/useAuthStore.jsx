@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [socket, setSocket] = useState(null);
-  // const [qrCodeImage, setQrCodeImage] = useState(null); // State to store the QR code image
+
 
   
     // const fetchQRCode = async () => {
@@ -144,8 +144,7 @@ export const AuthProvider = ({ children }) => {
         updateProfile,
         connectSocket,
         disConnectSocket,
-        qrCodeImage,
-        fetchQRCode
+       
       }}
     >
       {children}
