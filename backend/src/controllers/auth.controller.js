@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";  
 import bcrypt from "bcryptjs";
 import { genToken } from "../lib/utils.js";
+import qrcode from "qrcode";
 
 
 
@@ -37,7 +38,12 @@ export const signup = async (req, res) => {
         password: hashedPassword,
        
       });
-  
+
+      //qr code
+      const json = JSON.stringify({ id: newUser.id, email: newUser.email });
+      const qrCodeSrc = await qrcode.toDataURL(json);
+      await User.update({ qrCode: qrCodeSrc }, { where: { id: newUser.id } });
+
       
       genToken(newUser.id, res);
   
@@ -72,7 +78,7 @@ export const signup = async (req, res) => {
       genToken(user.id, res);
   
       return res.status(200).json({
-        id: user.id, // Use `id` instead of `_id`
+        id: user.id,
         email: user.email,
         fullName: user.fullName,
         profilePic: user.profile,
@@ -147,7 +153,13 @@ export const checkAuth = async (req, res) => {
         return res.status(401).json({ message: "Unauthorized" });
       }
   
-      res.status(200).json(user);
+      res.status(200).json({
+        id: user.id,
+        email: user.email,
+        fullName: user.fullName,
+        profilePic: user.profilePic,
+        qrCode: user.qrCode,
+      });
   
     } catch (error) {
       console.error("Error in checkAuth:", error.message);

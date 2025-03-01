@@ -33,13 +33,10 @@ const ProfilePage = () => {
             <p className="mt-2">Your profile information</p>
             
           </div>
-         {/* <div className="mt-4">
-    {qrCodeImage ? (
-      <img src={qrCodeImage} alt="User QR Code" className="w-32 h-32" />
-    ) : (
-      <p>Loading QR code...</p>
-    )}
-  </div> */}
+
+          <div>
+          <img src={authUser.qrCode} alt="User QR Code" />
+          </div>
           {/* avatar upload section */}
 
           <div className="flex flex-col items-center gap-4">
